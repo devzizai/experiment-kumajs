@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dashboard -- node dev/server.js",
+    "dev": "npm test & npm run webpack",
     "test": "nyc npm run mocha",
-    "build": "webpack --config ./config/development/webpack.config.js",
-    "dist": "webpack --config ./config/production/webpack.config.js",
+    "dist": "webpack -p --config ./config/production/webpack.config.js",
     "clean": "rm -fR ./dist ./report ./.nyc_output",
+    "webpack": "webpack --config ./config/development/webpack.config.js",
     "mocha": "mocha --require babel-polyfill --compilers js:babel-register -R spec ./specs/**/*.spec.js"
   },
   "repository": {
@@ -30,6 +31,7 @@
     "node": ">=7.4.0"
   },
   "devDependencies": {
+    "autoprefixer": "^6.7.3",
     "ava": "^0.18.1",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
@@ -89,6 +91,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "babel-polyfill": "^6.23.0",
     "md5": "^2.2.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
@@ -119,9 +122,9 @@
         "error",
         {
           "devDependencies": [
-            "dev/**/*.js",
-            "config/**/*.js",
-            "specs/**/*.js"
+            "/dev/**/*.js",
+            "/config/**/*.js",
+            "/specs/**/*.js"
           ],
           "peerDependencies": false,
           "optionalDependencies": false
@@ -135,12 +138,27 @@
             ".jsx"
           ]
         }
+      ],
+      "comma-dangle": [
+        "error",
+        {
+          "arrays": "ignore",
+          "objects": "ignore",
+          "imports": "ignore",
+          "exports": "ignore",
+          "functions": "ignore"
+        }
       ]
     }
   },
   "babel": {
     "presets": [
-      ["es2015", { "module": false }],
+      [
+        "es2015",
+        {
+          "module": false
+        }
+      ],
       "stage-0",
       "stage-1",
       "stage-2",
